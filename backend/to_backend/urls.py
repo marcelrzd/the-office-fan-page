@@ -22,4 +22,5 @@ from api.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('fetch-and-save-seasons/', FetchAndSaveSeasons.as_view(), name='fetch-and-save-seasons'),
+    path('fetch-and-save-characters/', FetchAndSaveCharacters.as_view(), name='fetch-and-save-characters'),
 ]

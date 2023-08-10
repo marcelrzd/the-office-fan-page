@@ -1,7 +1,9 @@
 from django.db import models
+from django.db.models import JSONField
 
 # Create your models here.
 class Season(models.Model):
+    id = models.IntegerField(primary_key=True)
     number = models.IntegerField()
     start_date = models.DateField()
     end_date = models.DateField()
@@ -25,27 +27,15 @@ class Episode(models.Model):
         return f"{self.title} (Season {self.season.number}, Episode {self.episode_number})"
 
 class Character(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, blank=True)
-    marital = models.CharField(max_length=20, blank=True, null=True)
-    job = models.ManyToManyField('Job', related_name='characters', blank=True)
-    workplace = models.ManyToManyField('Workplace', related_name='characters', blank=True)
-    first_appearance = models.CharField(max_length=100, blank=True)
-    last_appearance = models.CharField(max_length=100, blank=True)
-    actor = models.CharField(max_length=100)
+    marital = models.CharField(max_length=100, blank=True, null=True)
+    job = JSONField(default='[]')
+    workplace = JSONField(default='[]')
+    first_appearance = models.CharField(max_length=100, blank=True, null=True)
+    last_appearance = models.CharField(max_length=100, blank=True, null=True)
+    actor = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return self.name
-    
-
-class Job(models.Model):
-    title = models.CharField(max_length=100, null=True, blank=True)
-
-    def __str__(self):
-        return self.title +' - '+self.actor
-
-class Workplace(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
+        return self.name +' - '+self.actor

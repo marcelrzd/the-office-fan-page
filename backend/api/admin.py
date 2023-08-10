@@ -5,5 +5,3 @@ from .models import *
 admin.site.register(Season)
 admin.site.register(Episode)
 admin.site.register(Character)
-admin.site.register(Job)
-admin.site.register(Workplace)
