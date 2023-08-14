@@ -16,7 +16,7 @@ class Episode(models.Model):
     title = models.CharField(max_length=200)
     summary = models.TextField()
     air_date = models.DateField()
-    episode_number = models.IntegerField()
+    season_episode_number = models.CharField(max_length=20)
     series_episode_number = models.IntegerField()
     season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='episodes')
     main_characters = models.ManyToManyField('Character', related_name='main_episodes', blank=True)
@@ -24,18 +24,18 @@ class Episode(models.Model):
     recurring_characters = models.ManyToManyField('Character', related_name='recurring_episodes', blank=True)
 
     def __str__(self):
-        return f"{self.title} (Season {self.season.number}, Episode {self.episode_number})"
+        return f"{self.series_episode_number} - {self.title} (Season {self.season.number}, Episode {self.season_episode_number})"
 
 class Character(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, blank=True)
     marital = models.CharField(max_length=100, blank=True, null=True)
-    job = JSONField(default='[]')
-    workplace = JSONField(default='[]')
+    job = JSONField(default=dict)
+    workplace = JSONField(default=dict)
     first_appearance = models.CharField(max_length=100, blank=True, null=True)
     last_appearance = models.CharField(max_length=100, blank=True, null=True)
     actor = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return self.name +' - '+self.actor
+        return str(self.id) +' - '+ self.name +' - '+self.actor if self.actor else 'N/A'
