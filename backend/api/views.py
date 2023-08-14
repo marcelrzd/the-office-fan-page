@@ -91,16 +91,16 @@ class FetchAndSaveCharacters(APIView):
     
 # Fetching data from database to list and filter in the frontend
 class FetchSeasons(generics.ListAPIView):
-    seasons = Season.objects.all()
-    serializer = SeasonSerializer(seasons, many=True)
+    queryset = Season.objects.all()
+    serializer_class = SeasonSerializer
 
 class FetchEpisodes(generics.ListAPIView):
     queryset = Episode.objects.all()
     serializer_class = EpisodeSerializer
 
 class FetchCharacters(generics.ListAPIView):
-    characters = Character.objects.all()
-    serializer = CharacterSerializer
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
 
 
 
