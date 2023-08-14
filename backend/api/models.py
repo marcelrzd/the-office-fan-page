@@ -18,6 +18,7 @@ class Episode(models.Model):
     air_date = models.DateField()
     season_episode_number = models.CharField(max_length=20)
     series_episode_number = models.IntegerField()
+    episode_theme = models.CharField(max_length=60, blank=True, null=True)
     season = models.ForeignKey(Season, on_delete=models.CASCADE, related_name='episodes')
     main_characters = models.ManyToManyField('Character', related_name='main_episodes', blank=True)
     supporting_characters = models.ManyToManyField('Character', related_name='supporting_episodes', blank=True)

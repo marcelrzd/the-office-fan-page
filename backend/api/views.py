@@ -3,11 +3,13 @@ from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets, generics
+
 import requests
 from .models import *
-from .serializers import SeasonSerializer
+from .serializers import *
 
+# Fetch and save data from the office api into the database
 class FetchAndSaveSeasons(APIView):
     def get(self, request):
         response = requests.get('https://theofficeapi.dev/api/seasons')
@@ -86,3 +88,19 @@ class FetchAndSaveCharacters(APIView):
                 character_object.save()
 
         return Response(data)
+    
+# Fetching data from database to list and filter in the frontend
+class FetchSeasons(generics.ListAPIView):
+    seasons = Season.objects.all()
+    serializer = SeasonSerializer(seasons, many=True)
+
+class FetchEpisodes(generics.ListAPIView):
+    queryset = Episode.objects.all()
+    serializer_class = EpisodeSerializer
+
+class FetchCharacters(generics.ListAPIView):
+    characters = Character.objects.all()
+    serializer = CharacterSerializer
+
+
+

@@ -21,7 +21,13 @@ from api.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Fetch and save data from office api
     path('fetch-and-save-seasons/', FetchAndSaveSeasons.as_view(), name='fetch-and-save-seasons'),
     path('fetch-and-save-characters/', FetchAndSaveCharacters.as_view(), name='fetch-and-save-characters'),
     path('fetch-and-save-episodes/', FetchAndSaveEpisodes.as_view(), name='fetch-and-save-episodes'),
+
+    # Fetch data from database
+    path('fetch-seasons/', FetchSeasons.as_view(), name='fetch-seasons'),
+    path('fetch-episodes/', FetchEpisodes.as_view(), name='fetch-episodes'),
+    path('fetch-characters/', FetchCharacters.as_view(), name='fetch-characters'),
 ]

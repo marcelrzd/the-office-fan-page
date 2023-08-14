@@ -2,15 +2,40 @@
 
 from datetime import datetime
 from rest_framework import serializers
-from .models import Season
+from .models import *
 
 class SeasonSerializer(serializers.ModelSerializer):
-    start_date = serializers.DateField(source='startDate')
-    end_date = serializers.DateField(source='endDate')
-
     class Meta:
         model = Season
         fields = '__all__'
-        read_only_fields = ('id',)
+
+class CharacterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Character
+        fields = '__all__'
+
+class EpisodeSerializer(serializers.ModelSerializer):
+    season_number = serializers.SerializerMethodField()  
+    main_characters = serializers.SerializerMethodField()
+    recurring_characters = serializers.SerializerMethodField()
+    supporting_characters = serializers.SerializerMethodField()
+    class Meta:
+        model = Episode
+        fields = '__all__'
+
+    def get_season_number(self, obj):
+        return obj.season.number
+    
+    def get_main_characters(self, obj):
+        chars = obj.main_characters.all()
+        return [{'id': char.id, 'name': char.name} for char in chars]
+
+    def get_recurring_characters(self, obj):
+        chars = obj.recurring_characters.all()
+        return [{'id': char.id, 'name': char.name} for char in chars]
+    
+    def get_supporting_characters(self, obj):
+        chars = obj.supporting_characters.all()
+        return [{'id': char.id, 'name': char.name} for char in chars]
 
     
